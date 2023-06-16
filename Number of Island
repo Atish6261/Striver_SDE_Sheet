@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+int delr[]={-1,-1,0,1,1,1,0,-1};
+int delc[]={0,1,1,1,0,-1,-1,-1};
+void bfs(int i,int j,int** arr,vector<vector<int>>&vis,
+int n,int m){
+   vis[i][j]=1;
+   queue<pair<int,int>>q;
+   q.push({i,j});
+   while(!q.empty()){
+      int row=q.front().first;
+      int col=q.front().second;
+      q.pop();
+      for(int k=0;k<8;k++){
+           int nrow=row+delr[k];
+           int ncol=col+delc[k];
+           if(nrow>=0 && nrow<n && ncol>=0 &&
+    ncol<m && (vis[nrow][ncol]==0) && (arr[nrow][ncol]==1)){
+              vis[nrow][ncol]=1;
+              q.push({nrow,ncol});
+           }
+      }
+   }
+}
+int getTotalIslands(int** arr, int n, int m)
+{   int cnt=0;
+   vector<vector<int>>vis(n,vector<int>(m,0));
+   for(int i=0;i<n;i++){
+      for(int j=0;j<m;j++){
+         if((arr[i][j]==1) && (vis[i][j]==0)){
+            bfs(i,j,arr,vis,n,m);
+            cnt++;
+         }
+      }
+   }
+   return cnt;
+}
