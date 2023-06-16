@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+void dfs(graphNode* node,graphNode* clone,unordered_map<graphNode*,graphNode*>&mp){
+	 for(auto it:node->neighbours){
+		 if(mp.find(it)==mp.end()){
+            graphNode* temp=new graphNode(it->data);
+			mp[it]=temp;
+			clone->neighbours.push_back(temp);
+			dfs(it,temp,mp);
+
+
+		 }else{
+             clone->neighbours.push_back(mp[it]);
+
+		 }
+	 }
+}
+graphNode *cloneGraph(graphNode *node)
+{
+    if(node==NULL) return node;
+	graphNode* clone=new graphNode(node->data);
+	unordered_map<graphNode*,graphNode*>mp;
+	mp[node]=clone;
+	dfs(node,clone,mp);
+	return clone;
+}
